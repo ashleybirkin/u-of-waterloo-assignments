@@ -1,0 +1,366 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "1oGjoWSWqQ77"
+      },
+      "source": [
+        "## Assignment 3"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-oi4JzShqQ78"
+      },
+      "source": [
+        "This assignmemt is based on content discussed in modules 3 - 5 and test basic concepts of statistical inference theory and probability distributions."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "gjI1J5nXqQ79"
+      },
+      "source": [
+        "## Learning outcomes"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "R9t0LyaqqQ7-"
+      },
+      "source": [
+        "-   Work on problems of different distributions eg., gaussian\n",
+        "-   Calculate z score\n",
+        "-\tMake statistical inferences on given data\n",
+        "-\tConstruct a null and an alternate hypothesis\n",
+        "-\tFind the p-value for a given hypothesis and T test statistic."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_lXvCMN_qQ7_"
+      },
+      "source": [
+        "**Question 1**\n",
+        "\n",
+        "The Capital Asset Pricing Model (CAPM) is a financial model that assumes returns on a portfolio are normally distributed.  Suppose a portfolio has an average annual return of 14.7% (i.e., an average gain on 14.7%) with a standard deviation of 33%.  A return of 0% means the value of the portfolio doesn't change, a negative return means that the portfolio loses money, and a positive return means that the portfolio gains money. Determine the following:\n",
+        "\n",
+        "1. What percentage of years does this portfolio lose money, (i.e. have a return less than 0%)?\n",
+        "2. What is the cutoff for the highest 15% of annual returns with this portfolio?\n",
+        "\n",
+        "See CAPM here https://en.wikipedia.org/wiki/Capital_asset_pricing_model"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "_l53E9BAqQ8A"
+      },
+      "source": [
+        "**Question 2**\n",
+        "\n",
+        "Past experience indicates that because of low morale, a company loses 20 hours a year per employee due to lateness and abstenteeism.  Assume that the standard deviation of the population is 6 and normally distributed.\n",
+        "\n",
+        "The HR department implemented a new rewards system to increase employee morale, and after a few months it collected a random sample of 20 employees and the annualized absenteeism was 14.\n",
+        "\n",
+        "1. Could you confirm that the new rewards system was effective with a 90% confidence?\n",
+        "2. An HR subject matter expert would be very happy if the program could reduce absenteeism by 20% (i.e. to 16 hours).  Given the current sampling parameters (sample size of 20 and std. dev. of population. 6), what is the probability that the new rewards system reduced absenteeism to 16 hours and you miss it?\n",
+        "3. What should the sample size be if you want β to be 5%"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "LOjrz6ycqQ8A"
+      },
+      "source": [
+        "**Question 3**\n",
+        "\n",
+        "Chi-Square Goodness of fit\n",
+        "\n",
+        "Please access and review **section 6.3.5** in the OpenIntro Statistics textbook:\n",
+        "\n",
+        "Diez, D., Çetinkaya-Rundel, M. & Barr, C (2019). OpenIntro Statistics (4th Ed.). https://leanpub.com/openintro-statistics\n",
+        "\n",
+        "Given the information in section 6.3.5, write python code for the following:\n",
+        "\n",
+        " - Calculate the expected values based on the geometric distribution with a probability of 53.2%\n",
+        " - Compare the expected vs. the observed values from the textbook using the Chi-Square distribution\n",
+        " - Reach a conclusion\n",
+        " - Explain what is the business impact of your conclusion"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## QUESTION 1"
+      ],
+      "metadata": {
+        "id": "nWyNXuSm2nTR"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 61,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "hSKqK4gZqQ8B",
+        "outputId": "841e1b06-c764-4798-978c-1b300bd8d27c"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The percentage of years where the portfolio loses money is: 32.80%\n"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "import scipy.stats as stats\n",
+        "\n",
+        "mu = 0.147\n",
+        "sigma = 0.33\n",
+        "\n",
+        "z_score_1 = (0 - mu) / sigma\n",
+        "prob_loss = stats.norm.cdf(z_score_1)\n",
+        "\n",
+        "print(f\"The percentage of years where the portfolio loses money is: {prob_loss * 100:.2f}%\" )"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 62,
+      "metadata": {
+        "id": "c07pskji8wqq",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "f55ad9e0-b28a-4705-8349-f4af9c510964"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The cut off for the highest 15% of returns is: 48.90%\n"
+          ]
+        }
+      ],
+      "source": [
+        "z_score_2 = stats.norm.ppf(0.85)\n",
+        "cut_off = mu + (z_score_2 * sigma)\n",
+        "\n",
+        "print(f\"The cut off for the highest 15% of returns is: {cut_off * 100:.2f}%\" )"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## QUESTION 2"
+      ],
+      "metadata": {
+        "id": "iF9vzJFH2sML"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 63,
+      "metadata": {
+        "id": "JBbZ2PI78wqr",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "57a32179-4a0b-4734-e2bc-7576a0201966"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The Z-Score for the one-sample test is: -4.47\n"
+          ]
+        }
+      ],
+      "source": [
+        "import math\n",
+        "\n",
+        "mu_0 = 20\n",
+        "mu_sample = 14\n",
+        "sigma = 6\n",
+        "n = 20\n",
+        "alpha = 0.10\n",
+        "\n",
+        "z_test = (mu_sample - mu_0) /(sigma / math.sqrt(n))\n",
+        "p_value = stats.norm.cdf(z_test)\n",
+        "\n",
+        "print(f\"The Z-Score for the one-sample test is: {z_test:.2f}\")"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "mu_1 = 16\n",
+        "z_beta = (mu_1 - mu_0) / (sigma / math.sqrt(n))\n",
+        "beta = 1 - stats.norm.cdf(z_beta)\n",
+        "\n",
+        "print(f\"The P-Value is {p_value:.6f}\")"
+      ],
+      "metadata": {
+        "id": "ftoz9jiB2yGu",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "ed86f24e-1549-447c-e202-b53cc9945d6f"
+      },
+      "execution_count": 64,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The P-Value is 0.000004\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "beta_target = 0.05\n",
+        "z_alpha = stats.norm.ppf(1-alpha)\n",
+        "z_beta_target = stats.norm.ppf(1-beta_target)\n",
+        "\n",
+        "\n",
+        "n_req = ((z_alpha + z_beta_target) * sigma / (mu_0 - mu_1)) **2\n",
+        "n_req = math.ceil(n_req)\n",
+        "\n",
+        "print(f\"The probability of missing a true reduction to 16 hours is: {beta * 100:.2f}%\")\n",
+        "print(f\"The required sample size for beta to be 5% is: {n_req}]\")"
+      ],
+      "metadata": {
+        "id": "ecwd7zwo2x4Z",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "06ad2779-b5fb-4501-bc05-6e6331b8b1df"
+      },
+      "execution_count": 65,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "The probability of missing a true reduction to 16 hours is: 99.86%\n",
+            "The required sample size for beta to be 5% is: 20]\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "## QUESTION 3"
+      ],
+      "metadata": {
+        "id": "vmLBFt122yhN"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "p = 0.532\n",
+        "observed_counts = np.array([717, 369, 155, 69, 28, 14, 10])\n",
+        "total_count = np.sum(observed_counts)\n"
+      ],
+      "metadata": {
+        "id": "x3UQWc1n245u"
+      },
+      "execution_count": 66,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "expected_probs = [(1 - p) ** (d - 1) * p for d in range(1,7)]\n",
+        "expected_probs.append(1- sum(expected_probs))\n",
+        "\n",
+        "expected_counts = np.array([prob * total_count for prob in expected_probs])\n"
+      ],
+      "metadata": {
+        "id": "gdw206bK24q9"
+      },
+      "execution_count": 67,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "chi_square_stat, p_value = stats.chisquare(f_obs=observed_counts, f_exp=expected_counts)"
+      ],
+      "metadata": {
+        "id": "caUWibuw24Dk"
+      },
+      "execution_count": 68,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(f\"Chi-Square result is: {chi_square_stat:.2f}\")\n",
+        "print(f\"P-Value is: {p_value:.6f}\")"
+      ],
+      "metadata": {
+        "id": "vJORncdz23Ye",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "4e12ebdf-1576-43a1-c474-7c89b1bf5869"
+      },
+      "execution_count": 69,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Chi-Square result is: 6.10\n",
+            "P-Value is: 0.411619\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "toc_visible": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8.5"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
